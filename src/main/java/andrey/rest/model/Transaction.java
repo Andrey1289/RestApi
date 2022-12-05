@@ -4,27 +4,36 @@ import jakarta.persistence.*;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
+import java.util.List;
+
 @Entity
+@Table(name = "transactions")
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
-    private Date dateOfCreationTransaction;
+    @Column(name = "date_of_create")
+    private Date dateOfCreationTransaction = new Date();
     @Column(name ="sum_transaction")
     private Long sumTransaction;
-    @Column
+    @Column(name = "order_type")
     @Enumerated(EnumType.STRING)
     private OrderType orderType;
-    @Column
+    @Column(name = "id_client_account")
     private Long idClientAccount;
-    @Column
+    @Column(name = "id_cash_warrant")
     private Long idCashWarrant;
-    @Column
+    @Column(name = "id_client_account_transferring_money")
     private Long idClientAccountFromTransfer;
-    @Column
+    @Column(name = "result_transaction")
     @Enumerated(EnumType.STRING)
     private ResultTransaction resultTransaction;
+    @ManyToOne
+    @JoinColumn(name = "id_client_account",insertable=false, updatable=false)
+    private ClientAccount clientAccount;
+
+
+
 
     public Transaction() {
     }
@@ -55,7 +64,9 @@ public class Transaction {
     public void setDateOfCreationTransaction(Date dateOfCreationTransaction) {
         this.dateOfCreationTransaction = dateOfCreationTransaction;
     }
-
+    public ClientAccount getClientAccount() {
+        return clientAccount;
+    }
     public Long getSumTransaction() {
         return sumTransaction;
     }
@@ -102,5 +113,20 @@ public class Transaction {
 
     public void setResultTransaction(ResultTransaction resultTransaction) {
         this.resultTransaction = resultTransaction;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "id=" + id +
+                ", dateOfCreationTransaction=" + dateOfCreationTransaction +
+                ", sumTransaction=" + sumTransaction +
+                ", orderType=" + orderType +
+                ", idClientAccount=" + idClientAccount +
+                ", idCashWarrant=" + idCashWarrant +
+                ", idClientAccountFromTransfer=" + idClientAccountFromTransfer +
+                ", resultTransaction=" + resultTransaction +
+                ", clientAccount=" + clientAccount +
+                '}';
     }
 }

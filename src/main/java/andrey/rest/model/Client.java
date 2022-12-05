@@ -5,26 +5,26 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "clients")
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+    @Column(name ="last_name")
     private String lastName;
-    @Column
-    private String  name;
-    @Column
+    @Column(name = "name")
+    private String name;
+    @Column(name = "middle_name")
     private String middleName;
-    @Column
+    @Column(name = "secret_word")
     private String secretWord;
-    //To do create mapping one to many
+    @OneToMany(mappedBy = "client")
     private List<ClientAccount> accountList;
 
     public Client() {
     }
 
-    public Client(Long id, String lastName, String name, String middleName, String secretWord) {
-        this.id = id;
+    public Client(String lastName, String name, String middleName, String secretWord) {
         this.lastName = lastName;
         this.name = name;
         this.middleName = middleName;
@@ -76,5 +76,9 @@ public class Client {
                 ", middleName='" + middleName + '\'' +
                 ", secretWord='" + secretWord + '\'' +
                 '}';
+    }
+
+    public void setSecretWord(String secretWord) {
+        this.secretWord = secretWord;
     }
 }

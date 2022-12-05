@@ -6,39 +6,46 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name = "client_accounts")
 public class ClientAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+    @Column(name = "client_id")
     private Long clientId;
-    @Column
-    private Long numberAccount;
-    @Column
+    @Column(name = "account_number")
+    private Long accountNumber;
+    @Column(name = "account_sum")
     private Long sumOnAccountClient;
-    @Column
+    @Column(name = "account_type")
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
-    @Column
-    private Date dateOpen;
-    @Column
+    @Column(name = "date_of_create")
+    private Date dateOpen = new Date();
+    @Column(name = "validity")
     private Long validity;
-    // one to many
+    @ManyToOne
+    @JoinColumn(name = "client_id",insertable=false, updatable=false)
+    private Client client;
+    @OneToMany(mappedBy = "clientAccount")
     private List<Transaction> transactionList;
-    //one to many
+    @OneToMany(mappedBy = "clientAccount")
     private List<CashWarrant> cashWarrantList;
 
     public ClientAccount() {
     }
 
-    public ClientAccount(Long id, Long clientId, Long numberAccount, Long sumOnAccountClient, AccountType accountType, Date dateOpen, Long validity) {
+    public ClientAccount(Long id, Long clientId, Long accountNumber, Long sumOnAccountClient, AccountType accountType, Long validity) {
         this.id = id;
         this.clientId = clientId;
-        this.numberAccount = numberAccount;
+        this.accountNumber = accountNumber;
         this.sumOnAccountClient = sumOnAccountClient;
         this.accountType = accountType;
-        this.dateOpen = new Date();
-        this.validity = 1L;
+        this.validity = validity;
+    }
+
+    public ClientAccount(Date dateOpen) {
+        this.dateOpen = dateOpen;
     }
 
     public Long getId() {
@@ -58,11 +65,11 @@ public class ClientAccount {
     }
 
     public Long getNumberAccount() {
-        return numberAccount;
+        return accountNumber;
     }
 
-    public void setNumberAccount(Long numberAccount) {
-        this.numberAccount = numberAccount;
+    public void setNumberAccount(Long accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     public Long getSumOnAccountClient() {
@@ -80,17 +87,28 @@ public class ClientAccount {
     public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
     }
+    public Long getValidity() {
+        return validity;
+    }
+    public Long getAccountNumber() {
+        return accountNumber;
+    }
 
+    public void setValidity(Long validity) {
+        this.validity = validity;
+    }
     @Override
     public String toString() {
         return "ClientAccount{" +
                 "id=" + id +
                 ", clientId=" + clientId +
-                ", numberAccount=" + numberAccount +
+                ", accountNumber=" + accountNumber +
                 ", sumOnAccountClient=" + sumOnAccountClient +
                 ", accountType=" + accountType +
                 ", dateOpen=" + dateOpen +
                 ", validity=" + validity +
                 '}';
     }
+
+
 }

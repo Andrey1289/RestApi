@@ -4,32 +4,39 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 @Entity
+@Table(name = "cash_warrant")
 public class CashWarrant {
     @Id
     @GeneratedValue
     private Long id;
-    @Column
+    @Enumerated(EnumType.STRING)
+    @Column(name = "order_type")
     private OrderType orderType;
-    @Column
+    @Column(name = "sum_order")
     private Long sumOrder;
-    @Column
+    @Column(name = "client_account_id")
     private Long idClientAccount;
-    @Column
+    @Column(name = "result_cash_warrant")
+    @Enumerated(EnumType.STRING)
     private ResultCashWarrant resultCashWarrant;
-    @Column
-    private Date dateOfCreationCashWarrant;
-
+    @Column(name = "date_of_create")
+    private Date dateOfCreationCashWarrant = new Date();
+    @ManyToOne
+    @JoinColumn(name = "client_account_id",insertable=false, updatable=false)
+    private ClientAccount clientAccount;
 
     public CashWarrant() {
     }
-
+    public ClientAccount getClientAccount() {
+        return clientAccount;
+    }
     public CashWarrant(Long id, OrderType orderType, Long sumOrder, Long idClientAccount, ResultCashWarrant resultCashWarrant, Date dateOfCreationCashWarrant) {
         this.id = id;
         this.orderType = orderType;
         this.sumOrder = sumOrder;
         this.idClientAccount = idClientAccount;
         this.resultCashWarrant = resultCashWarrant;
-        this.dateOfCreationCashWarrant = new Date();
+        this.dateOfCreationCashWarrant = dateOfCreationCashWarrant;
     }
 
     public Long getId() {
