@@ -80,18 +80,18 @@ public class CashWarrantServiceImpl implements CashWarrantService {
         transactionRepository.save(transaction);
         if (sum > 0) {
             clientAccount.setSumOnAccountClient(sum);
-<<<<<<< HEAD
+
             //clientAccountForTransfer.setSumOnAccountClient(replenishmentAmount);
 
             clientAccountRepository.save(clientAccount);
            // clientAccountRepository.save(clientAccountForTransfer);
-=======
+
             clientAccountRepository.save(clientAccount);
             if(replenishmentAmount > 0) {
                 clientAccountForTransfer.setSumOnAccountClient(replenishmentAmount);
                 clientAccountRepository.save(clientAccountForTransfer);
             }
->>>>>>> 549a5f99618f9b7aab8745d556ba6a5885039178
+
         } else {
             //to do возвращать ошибку
         }
