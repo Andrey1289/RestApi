@@ -22,7 +22,7 @@ spring.jpa.hibernate.ddl-auto=create
 spring.jpa.hibernate.ddl-auto=none
 
 Сборка проекта -> в терминале выполнить команду mvn clean install
-после того как проект с билдится можно запускать jar фаил по пути target/your name jar fail
+после того как проект с билдится можно запускать jar фаил по пути target/your name jar file
 
 описание работы с Api:
 GET запрос :http://localhost:8081/api/v1/clients/all - для получения всех клиентов
