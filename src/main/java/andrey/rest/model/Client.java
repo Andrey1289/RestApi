@@ -1,11 +1,11 @@
 package andrey.rest.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import java.util.List;
 
 @Entity
-@Table(name = "clients")
+@Table(name = "client")
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

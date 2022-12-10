@@ -3,13 +3,8 @@ package andrey.rest.service;
 import andrey.rest.model.Client;
 import andrey.rest.repository.ClientRepository;
 import andrey.rest.utils.Hash;
-import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Service

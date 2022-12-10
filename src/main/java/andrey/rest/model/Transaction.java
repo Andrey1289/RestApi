@@ -1,13 +1,11 @@
 package andrey.rest.model;
 
-import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Value;
-
+import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+
 
 @Entity
-@Table(name = "transactions")
+@Table(name = "transaction")
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -9,7 +9,6 @@ import andrey.rest.utils.Hash;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CashWarrantServiceImpl implements CashWarrantService {
@@ -78,10 +77,10 @@ public class CashWarrantServiceImpl implements CashWarrantService {
         transactionRepository.save(transaction);
         if (sum > 0) {
             clientAccount.setSumOnAccountClient(sum);
-            clientAccountForTransfer.setSumOnAccountClient(replenishmentAmount);
+            //clientAccountForTransfer.setSumOnAccountClient(replenishmentAmount);
 
             clientAccountRepository.save(clientAccount);
-            clientAccountRepository.save(clientAccountForTransfer);
+           // clientAccountRepository.save(clientAccountForTransfer);
         } else {
             //to do возвращать ошибку
         }
