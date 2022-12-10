@@ -21,6 +21,9 @@ spring.jpa.hibernate.ddl-auto=create
 Для последущих запусков 
 spring.jpa.hibernate.ddl-auto=none
 
+Сборка проекта -> в терминале выполнить команду mvn clean install
+после того как проект с билдится можно запускать jar фаил по пути target/your name jar fail
+
 описание работы с Api:
 GET запрос :http://localhost:8081/api/v1/clients/all - для получения всех клиентов
 GET запрос :http://localhost:8081/api/v1/clients/accountClient/1 - для получения счета слиента по id = 1
