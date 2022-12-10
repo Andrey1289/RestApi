@@ -33,10 +33,12 @@ public class CashWarrantServiceImpl implements CashWarrantService {
     @Override
     public CashWarrant createWarrant(CreateCashWarrantRequest createCashWarrantRequest) {
         // to do сделать проверку секретного слова
+
         ClientAccount clientAccount = clientAccountRepository.findByaccountNumber(createCashWarrantRequest.getAccountNumber());
         ClientAccount clientAccountForTransfer = clientAccountRepository.findByaccountNumber(createCashWarrantRequest.getNumberAccountForTransfer());
         long sum = 0;
         long replenishmentAmount = 0;
+       // String error = ;
 
         if (createCashWarrantRequest.getOrderType() == OrderType.REPLENISHMENT) {
             sum = clientAccount.getSumOnAccountClient() + createCashWarrantRequest.getSumOrder();
@@ -66,6 +68,7 @@ public class CashWarrantServiceImpl implements CashWarrantService {
         cashWarrant.setResultCashWarrant(sum > 0 ? ResultCashWarrant.SUCCESSFULLY : ResultCashWarrant.DOES_NOT_MATCH_SECRET_WORD);
         cashWarrant.setSumOrder(createCashWarrantRequest.getSumOrder());
         cashWarrant.setIdClientAccount(clientAccount.getId());
+        System.out.println(cashWarrant);
         cashWarrantRepository.save(cashWarrant);
 
         Transaction transaction = new Transaction();
@@ -77,10 +80,18 @@ public class CashWarrantServiceImpl implements CashWarrantService {
         transactionRepository.save(transaction);
         if (sum > 0) {
             clientAccount.setSumOnAccountClient(sum);
+<<<<<<< HEAD
             //clientAccountForTransfer.setSumOnAccountClient(replenishmentAmount);
 
             clientAccountRepository.save(clientAccount);
            // clientAccountRepository.save(clientAccountForTransfer);
+=======
+            clientAccountRepository.save(clientAccount);
+            if(replenishmentAmount > 0) {
+                clientAccountForTransfer.setSumOnAccountClient(replenishmentAmount);
+                clientAccountRepository.save(clientAccountForTransfer);
+            }
+>>>>>>> 549a5f99618f9b7aab8745d556ba6a5885039178
         } else {
             //to do возвращать ошибку
         }
