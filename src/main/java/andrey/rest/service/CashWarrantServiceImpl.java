@@ -6,7 +6,10 @@ import andrey.rest.repository.ClientAccountRepository;
 import andrey.rest.repository.ClientRepository;
 import andrey.rest.repository.TransactionRepository;
 import andrey.rest.utils.Hash;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -32,13 +35,11 @@ public class CashWarrantServiceImpl implements CashWarrantService {
 
     @Override
     public CashWarrant createWarrant(CreateCashWarrantRequest createCashWarrantRequest) {
-        // to do сделать проверку секретного слова
-
         ClientAccount clientAccount = clientAccountRepository.findByaccountNumber(createCashWarrantRequest.getAccountNumber());
         ClientAccount clientAccountForTransfer = clientAccountRepository.findByaccountNumber(createCashWarrantRequest.getNumberAccountForTransfer());
         long sum = 0;
         long replenishmentAmount = 0;
-       // String error = ;
+
 
         if (createCashWarrantRequest.getOrderType() == OrderType.REPLENISHMENT) {
             sum = clientAccount.getSumOnAccountClient() + createCashWarrantRequest.getSumOrder();
@@ -77,15 +78,12 @@ public class CashWarrantServiceImpl implements CashWarrantService {
         transaction.setResultTransaction(sum > 0 ? ResultTransaction.SUCCESSFULLY : ResultTransaction.DOES_NOT_MATCH_SECRET_WORD);
         transaction.setOrderType(cashWarrant.getOrderType());
         transaction.setSumTransaction(cashWarrant.getSumOrder());
+        if(createCashWarrantRequest.getOrderType()== OrderType.TRANSFER){
+            transaction.setIdClientAccountFromTransfer(clientAccountForTransfer.getId());
+        }
         transactionRepository.save(transaction);
         if (sum > 0) {
             clientAccount.setSumOnAccountClient(sum);
-
-            //clientAccountForTransfer.setSumOnAccountClient(replenishmentAmount);
-
-            clientAccountRepository.save(clientAccount);
-           // clientAccountRepository.save(clientAccountForTransfer);
-
             clientAccountRepository.save(clientAccount);
             if(replenishmentAmount > 0) {
                 clientAccountForTransfer.setSumOnAccountClient(replenishmentAmount);
@@ -93,7 +91,8 @@ public class CashWarrantServiceImpl implements CashWarrantService {
             }
 
         } else {
-            //to do возвращать ошибку
+
+           throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
         return null;
